@@ -1,0 +1,6 @@
+[submodule "src/standalone/seasocks"]
+	path = src/standalone/seasocks
+	url = https://github.com/mattgodbolt/seasocks.git
+[submodule "src/desktop/seasocks"]
+	path = src/desktop/seasocks
+	url = https://github.com/mattgodbolt/seasocks
