@@ -24,5 +24,13 @@
       "bblanchon/ArduinoJson": "^7.0.4"
     },
     "frameworks": "*",
-    "platforms": "*"
+    "platforms": "*",
+    "build": {
+        "srcFilter": [
+            "-<desktop/**>",
+            "-<embedded/**>",
+            "-<demoui.cpp>",
+            "+<data_*.cpp>"
+        ]
+    }
   }
