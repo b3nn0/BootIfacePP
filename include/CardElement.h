@@ -12,14 +12,6 @@ public:
     CardElement(WebPageBase* page) : WebElement(page) {}
 
 
-    void setStyle(std::string_view style) {
-        _style = style;
-    }
-
-    const std::string& getStyle() const {
-        return _style;
-    }
-
     void setHeader(std::string_view header) {
         _header = header;
     }
@@ -46,13 +38,6 @@ public:
             "{}"
             "</div></div></div></div>", getId(), getColSpecStr(), _style, _header, _title, getChildrenHtml(recursive)
             );
-
-        /*return "<div id=\"" + getId() + "\" class=\"card " + _colSpec + "\" style=\"" + _style + "\">"
-            + (!_header.empty() ? ("<h5 class=\"card-header\">" + _header + "</h5>") : "")
-            + "<div class=\"card-body\">"
-            + (!_title.empty() ? ("<h5 class=\"card-title\">" + _title + "</h5>") : "")
-            + getChildrenHtml(recursive)
-            + "</div></div>";*/
     }
 
 
@@ -63,7 +48,6 @@ public:
 private:
     std::string _header;
     std::string _title;
-    std::string _style;
 
 };
 

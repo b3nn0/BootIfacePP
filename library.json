@@ -1,0 +1,28 @@
+{
+    "name": "BootIface++",
+    "version": "0.0.1",
+    "description": "Create beautiful Bootstrap-based web interfaces from C++",
+    "keywords": "Bootstrap ESP32 Web Interface",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/b3nn0/BootIfacePP"
+    },
+    "authors":
+    [
+      {
+        "name": "Adrian Batzill",
+        "email": "dev@batzill.com",
+        "url": "https://abatzill.de",
+        "maintainer": true
+      }
+    ],
+    "license": "BSD",
+    "homepage": "https://github.com/b3nn0/BootIfacePP",
+    "dependencies": {
+      "fmtlib/fmt": "^8.8.1",
+      "bblanchon/ArduinoJson": "^7.0.4"
+    },
+    "frameworks": "*",
+    "platforms": "*"
+  }

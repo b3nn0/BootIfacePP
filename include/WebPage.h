@@ -19,7 +19,7 @@ class WebPage : public WebPageBase {
 public:
 
     WebPage() {
-        _rootContainer = std::make_shared<InternalDivElement>(this, "_rootContainer", "");
+        _rootContainer = std::make_shared<InternalDivElement>(this, "_rootContainer");
     }
 
     void serveOn(WebSocketServerBase& server, std::string rootPath) {
@@ -47,11 +47,11 @@ public:
         return this;
     }
 
-    std::shared_ptr<WebElement> getRootElement() {
+    std::shared_ptr<WebElement> getRootContainer() {
         return _rootContainer;
     }
 
-    std::shared_ptr<WebElement> getElementById(std::string_view id) {
+    WebElement* getElementById(std::string_view id) {
         if (_rootContainer == nullptr)
             return nullptr;
         return _rootContainer->getElementById(id);

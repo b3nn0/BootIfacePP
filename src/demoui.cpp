@@ -2,8 +2,10 @@
 #include <CardElement.h>
 #include <ButtonElement.h>
 #include <RowElement.h>
-#include <NavBarElement.h>
-#include <NavBarEntryElement.h>
+#include <HeaderElement.h>
+#include <TextElement.h>
+#include <TabBarElement.h>
+#include <TabBarItemElement.h>
 
 #include <Format.h>
 
@@ -12,20 +14,42 @@ using namespace BootIface;
 std::shared_ptr<WebPage> createDemoUi() {
     auto p = std::make_shared<WebPage>();
 
+
+    
+    // Page header
+    auto header = std::make_shared<HeaderElement>(p.get());
+    header->setTitle("Demo Page");
+    header->addClass("shadow");
+    p->getRootContainer()->addChild(header);
+
     // Navigation
-    auto nav = std::make_shared<NavSidebarElement>(p.get());
+    auto nav = std::make_shared<TabBarElement>(p.get());
+    nav->setBreakAndCols(WebElement::BreakPoint::None, 0);
+    for (int i = 0; i < 10; i++) {
+        auto tab = std::make_shared<TabBarItemElement>(p.get());
+        tab->setLabel("Foo " + std::to_string(i));
+        auto text = std::make_shared<TextElement>(p.get());
+        text->setText("tab #" + std::to_string(i));
+        tab->setContent(text);
+        nav->addTab(tab);
+    }
+    //header->addChild(nav);
+    p->getRootContainer()->addChild(nav);
+
+    // Navigation
+    /*auto nav = std::make_shared<NavBarElement>(p.get());
     nav->setHeader("Demo");
     for (int i = 0; i < 10; i++) {
-        auto entry = std::make_shared<NavSidebarEntryElement>(p.get());
+        auto entry = std::make_shared<NavBarEntryElement>(p.get());
         entry->setLabel("Foo " + std::to_string(i));
         nav->addChild(entry);
     }
-    p->getRootElement()->addChild(nav);
+    p->getRootContainer()->addChild(nav);*/
 
 
     // content
 
-    auto root = std::make_shared<DivElement>(p.get());
+    auto root = std::make_shared<DivElement>(p.get(), true);
     auto boxRow = std::make_shared<RowElement>(p.get());
     auto cardRow = std::make_shared<RowElement>(p.get());
     root->addChild(boxRow);
@@ -74,7 +98,7 @@ std::shared_ptr<WebPage> createDemoUi() {
         });
     }
 
-    p->getRootElement()->addChild(root);
+    p->getRootContainer()->addChild(root);
 
     return p;
 }

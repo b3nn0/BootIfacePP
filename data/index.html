@@ -18,19 +18,19 @@
                     const dummy = document.createElement('div');
                     dummy.innerHTML = msg.data;
                     const parent = document.getElementById(msg.id);
-                    for (let i = 0; i < dummy.childNodes.length; i++) {
+                    for (const child of dummy.children) {
                         let container = parent.querySelector('[childcontainer]');
                         if (!container)
                             container = parent;
                         
-                        container.appendChild(dummy.childNodes[i]);
+                        container.appendChild(child);
                     }
                     break;
                 case 'update':
                     const oldElem = document.getElementById(msg.id);
                     const dummy2 = document.createElement('div');
                     dummy2.innerHTML = msg.data;
-                    const newElem = dummy2.childNodes[0];
+                    const newElem = dummy2.firstElementChild;
                     oldElem.parentNode.insertBefore(newElem, oldElem);
                     oldElem.parentNode.removeChild(oldElem);
 
@@ -69,7 +69,7 @@
 </head>
 
 <body>
-    <div id="_rootContainer" class="wrapper"></div>
+    <div id="_rootContainer" class="container-fluid"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

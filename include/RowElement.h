@@ -9,16 +9,8 @@ namespace BootIface {
 class RowElement : public WebElement {
 
 public:
-    RowElement(WebPageBase* page) : WebElement(page) {}
-
-    void setStyle(std::string_view style) {
-        _style = style;
+    RowElement(WebPageBase* page) : WebElement(page) {
     }
-
-    const std::string& getStyle() const {
-        return _style;
-    }
-
 
 
     virtual std::string getHtml(bool recursive) const override {
@@ -34,9 +26,6 @@ public:
     }
 
 private:
-    std::string _colSpec;
-    std::string _style;
-
 };
 
 }

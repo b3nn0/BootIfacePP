@@ -10,17 +10,22 @@ def varname(name):
 
 def bundleFile(path : Path):
     fname = path.name
+    var = varname(fname)
+
     outpath = Path('src/data_' + fname + '.cpp')
     if outpath.exists():
         # only update if newer
         istat = os.stat(path.absolute())
         ostat = os.stat(outpath.absolute())
         if ostat.st_mtime >= istat.st_mtime:
-            return # already up to date
+            return var # already up to date
     
     content = open(path.absolute(), 'rb').read()
     origLen = len(content)
-    compressed = gzip.compress(content)
+    if fname.startswith('raw_'):
+        compressed = content
+    else:
+        compressed = gzip.compress(content)
 
 
     with open(outpath.absolute(), 'wb') as f:
@@ -29,7 +34,7 @@ def bundleFile(path : Path):
         f.write(b'#ifndef PROGMEM\n')
         f.write(b'#define PROGMEM\n')
         f.write(b'#endif\n')
-        var = varname(fname)
+        
         f.write(bytes('const uint8_t {}_arr[] PROGMEM = {{'.format(var), 'utf-8'))
         first = True
         for b in compressed:

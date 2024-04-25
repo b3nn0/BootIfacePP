@@ -3,6 +3,7 @@
 #include <functional>
 #include <Format.h>
 
+#include "WebPage.h"
 #include "WebElement.h"
 
 namespace BootIface {
@@ -20,24 +21,17 @@ public:
         return _label;
     }
 
-    void setStyle(std::string_view style) {
-        _style = style;
-    }
-
-    const std::string& getStyle() const {
-        return _style;
-    }
-
     void onClick(std::function<void(ButtonElement*)> onClick) {
         _onClick = onClick;
     }
 
     virtual std::string getHtml(bool recursive) const override {
-        return fmt::format(
-            "<button id=\"{}\" class=\"btn btn-primary {}\" style=\"{}\" onclick=\"sendEvent(this.id, 'onclick', {{}})\">"
-            "{}"
-            "{}"
-            "</button>", getId(), getColSpecStr(), _style, _label, getChildrenHtml(recursive));
+        return fmt::format(R"!!(
+<button id="{}" class="btn btn-primary {} {}" style="{}" onclick="sendEvent(this.id, 'onclick', {{}})">
+{}
+{}
+</button>)!!",
+            getId(), getColSpecStr(), getClassesStr(), _style, _label, getChildrenHtml(recursive));
     }
 
     virtual bool handleEvent(const Message& msg) override {
@@ -48,9 +42,8 @@ public:
         return false;
     }
 
-private:
+protected:
     std::string _label;
-    std::string _style;
     std::function<void(ButtonElement*)> _onClick;
 
 };
