@@ -25,8 +25,8 @@ public:
         _content->addClass("tab-pane");
     }
 
-    WebElement* getContent() {
-        return _content.get();
+    std::shared_ptr<WebElement> getContent() {
+        return _content;
     }
 
     void show() {

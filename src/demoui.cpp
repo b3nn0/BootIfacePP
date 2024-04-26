@@ -6,6 +6,9 @@
 #include <TextElement.h>
 #include <TabBarElement.h>
 #include <TabBarItemElement.h>
+#include <SwitchElement.h>
+#include <TextEditElement.h>
+#include <ContainerElement.h>
 
 #include <Format.h>
 
@@ -24,13 +27,16 @@ std::shared_ptr<WebPage> createDemoUi() {
 
     // Navigation
     auto nav = std::make_shared<TabBarElement>(p.get());
+    nav->setCentered(true);
     nav->setBreakAndCols(WebElement::BreakPoint::None, 0);
     for (int i = 0; i < 10; i++) {
         auto tab = std::make_shared<TabBarItemElement>(p.get());
+        auto content = std::make_shared<ContainerElement>(p.get(), false);
+        tab->setContent(content);
         tab->setLabel("Foo " + std::to_string(i));
         auto text = std::make_shared<TextElement>(p.get());
         text->setText("tab #" + std::to_string(i));
-        tab->setContent(text);
+        content->addChild(text);
         nav->addTab(tab);
     }
     //header->addChild(nav);
@@ -49,7 +55,9 @@ std::shared_ptr<WebPage> createDemoUi() {
 
     // content
 
-    auto root = std::make_shared<DivElement>(p.get(), true);
+    auto root = std::make_shared<ContainerElement>(p.get(), true);
+    root->addClass("container");
+    root->setBreakAndCols(WebElement::BreakPoint::None, 0);
     auto boxRow = std::make_shared<RowElement>(p.get());
     auto cardRow = std::make_shared<RowElement>(p.get());
     root->addChild(boxRow);
@@ -57,10 +65,29 @@ std::shared_ptr<WebPage> createDemoUi() {
 
 
     auto lulcard = std::make_shared<CardElement>(p.get());
-    lulcard->setHeader("lulbuttons");
+    lulcard->setHeader("funnycard");
     lulcard->setTitle("hehehe");
     lulcard->setBreakAndCols(WebElement::BreakPoint::Small, 6);
     cardRow->addChild(lulcard);
+
+    auto sw = std::make_shared<SwitchElement>(p.get());
+    sw->setLabel("switcheroo");
+    sw->setValue(true);
+    sw->onChange([nav, p](auto sw, auto val) {
+        auto txt = std::make_shared<TextElement>(p.get());
+        txt->setText(std::to_string(val));
+        nav->getTab(1)->getContent()->addChild(txt);
+    });
+    lulcard->addChild(sw);
+
+    auto txt = std::make_shared<TextEditElement>(p.get());
+    txt->setHint("hint");
+    txt->setLabel("label");
+    txt->onChange([](auto elem, auto value) {
+        elem->setValue(value + value);
+        elem->push();
+    });
+    lulcard->addChild(txt);
 
     auto changer = std::make_shared<CardElement>(p.get());
     auto changerbtn = std::make_shared<ButtonElement>(p.get());

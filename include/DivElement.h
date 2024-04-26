@@ -9,9 +9,7 @@ namespace BootIface {
 class DivElement : public WebElement {
 
 public:
-    DivElement(WebPageBase* page, bool fullWidth = false) : WebElement(page) {
-        if (fullWidth)
-            setBreakAndCols(BreakPoint::None, 0);
+    DivElement(WebPageBase* page) : WebElement(page) {
     }
 
     virtual std::string getHtml(bool recursive) const override {

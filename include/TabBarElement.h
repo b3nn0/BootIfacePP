@@ -22,17 +22,27 @@ public:
         addChild(tab);
     }
 
+    void setCentered(bool centered) {
+        _centered = centered;
+    }
+
+    std::shared_ptr<TabBarItemElement> getTab(size_t index) {
+        if (index < _tabs.size())
+            return _tabs[index];
+        return nullptr;
+    }
+
     virtual std::string getHtml(bool recursive) const override {
         return fmt::format(R"!!(
 <div id="{}">
-    <ul class="nav nav-tabs {} {}" role="tablist" style="{}">
+    <ul class="nav nav-tabs {} {} {}" role="tablist" style="{}">
     {}
     </ul>
     <div class="tab-content">
     {}
     </div>
 </div>)!!",
-            getId(), getColSpecStr(), getClassesStr(), getStyle(), getChildrenHtml(recursive), formatTabContents(recursive));
+            getId(), _centered ? "justify-content-center" : "", getColSpecStr(), getClassesStr(), getStyle(), getChildrenHtml(recursive), formatTabContents(recursive));
 
     }
 
@@ -48,6 +58,7 @@ private:
         return result;
     }
     std::vector<std::shared_ptr<TabBarItemElement>> _tabs;
+    bool _centered = false;;
 
 };
 

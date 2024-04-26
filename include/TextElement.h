@@ -23,11 +23,7 @@ public:
 
 
     virtual std::string getHtml(bool recursive) const override {
-        return fmt::format(R"!!(
-<span id="{}" class="{} {}" style="{}">
-{}
-{}
-</span>)!!",
+        return fmt::format(R"!!(<span id="{}" class="{} {}" style="{}">{}{}</span>)!!",
             getId(), getColSpecStr(), getClassesStr(), _style, _text, getChildrenHtml(recursive));
     }
 

@@ -21,14 +21,13 @@ public:
     }
 
     Message(std::string_view text) {
-        ArduinoJson::JsonDocument doc;
-        ArduinoJson::deserializeJson(doc, text.data());
-        if (doc.containsKey("id"))
-            _elemId = doc["id"].as<std::string>();
-        if (doc.containsKey("eventType"))
-            _eventType = doc["eventType"].as<std::string>();
-        if (doc.containsKey("eventData"))
-            _eventData = doc["eventData"].as<ArduinoJson::JsonObject>();
+        ArduinoJson::deserializeJson(_doc, text.data());
+        if (_doc.containsKey("id"))
+            _elemId = _doc["id"].as<std::string>();
+        if (_doc.containsKey("eventType"))
+            _eventType = _doc["eventType"].as<std::string>();
+        if (_doc.containsKey("eventData"))
+            _eventData = _doc["eventData"].as<ArduinoJson::JsonObject>();
     }
 
     Action getAction() const {
@@ -55,13 +54,14 @@ public:
         return _data;
     }
 
+    const ArduinoJson::JsonObject& getEventData() const {
+        return _eventData;
+    }
+
     std::string_view getEventType() const {
         return _eventType;
     }
 
-    const ArduinoJson::JsonObject& getEventData() {
-        return _eventData;
-    }
 
     std::string asJson() const {
         ArduinoJson::JsonDocument doc;
@@ -79,11 +79,12 @@ public:
     }
     
 private:
+    ArduinoJson::JsonDocument _doc;
+    ArduinoJson::JsonObject _eventData;
     Action _action;
     std::string _elemId = "";
     std::string _data;
     std::string _eventType;
-    ArduinoJson::JsonObject _eventData;
     
 };
 
